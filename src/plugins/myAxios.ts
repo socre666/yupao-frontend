@@ -4,6 +4,7 @@ import axios, {AxiosInstance} from "axios";
 const myAxios:AxiosInstance = axios.create({
     baseURL: 'http://localhost:8080/api'
 });
+myAxios.defaults.withCredentials = true; //配置为true,表示向后端发送请求时，要携带上cookie
 // 添加请求拦截器
 myAxios.interceptors.request.use(function (config) {
     console.log("我要发请求啦",config)
@@ -18,7 +19,7 @@ myAxios.interceptors.request.use(function (config) {
 myAxios.interceptors.response.use(function (response) {
     console.log("我收到你的响应啦",response)
     // 对响应数据做点什么
-    return response;
+    return response.data;
 }, function (error) {
     // 对响应错误做点什么
     return Promise.reject(error);
