@@ -13,7 +13,9 @@
 
 <script setup lang="ts">
 import {useRouter} from "vue-router";
-
+import {onMounted} from "vue";
+import {Toast} from "vant";
+import myAxios from "../plugins/myAxios";
 const user = {
   id: 1,
   username: "奋斗",
@@ -26,6 +28,31 @@ const user = {
   createTime: new Date(),
 };
 const router = useRouter();
+onMounted(async () =>{
+  const userListData = await myAxios.get('/user/search/tags', {
+    paramsSerializer: params => {
+      return qs.stringify(params, { indices: false })
+    }
+  })
+      .then(function (response) {
+        console.log('/user/search/tags succeed',response);
+        Toast.success("请求成功");
+        return response.data?.data;
+      })
+      .catch(function (error) {
+        console.error('/user/search/tags error',error);
+        Toast.fail("请求失败");
+      });
+  console.log(userListData)
+  if(userListData){
+    userListData.forEach(user =>{
+      if(user.tags){
+        user.tags = JSON.parse(user.tags);
+      }
+    })
+    userList.value = userListData;
+  }
+})
 const toEdit = (editKey: String,editName: String,currentValue: String) =>{
   router.push({
     path: '/user/edit',

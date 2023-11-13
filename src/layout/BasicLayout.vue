@@ -21,7 +21,6 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
 import { Toast } from 'vant';
 import {useRouter} from "vue-router";
 const router = useRouter()
@@ -32,7 +31,6 @@ const onClickRight = () => {
   router.push('/Search')
 };
 
-// const active = ref("index");
 const onChange = (index) => Toast(`标签 ${index}`);
 </script>
 
