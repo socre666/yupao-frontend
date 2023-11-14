@@ -16,12 +16,10 @@
 <script setup lang="ts">
 import {useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
-import {Toast} from "vant";
 import {getCurrentUser} from "../services/user";
 const user = ref();
 onMounted(async () =>{
   user.value = await getCurrentUser();
-
 })
 const router = useRouter();
 const toEdit = (editKey: String,editName: String,currentValue: String) =>{

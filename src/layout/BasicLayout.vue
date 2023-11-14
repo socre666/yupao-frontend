@@ -23,17 +23,20 @@
 <script setup>
 import { Toast } from 'vant';
 import {useRouter} from "vue-router";
+
 const router = useRouter()
 const onClickLeft = () => {
   router.back();
 };
 const onClickRight = () => {
-  router.push('/Search')
+  router.push('/Search');
 };
 
 const onChange = (index) => Toast(`标签 ${index}`);
 </script>
 
 <style scoped>
-
+#content {
+  padding-bottom: 50px;
+}
 </style>
