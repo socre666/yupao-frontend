@@ -5,6 +5,7 @@ import {UserType} from "./user";
  */
 export type TeamType = {
     id: number;
+    teamAvatarUrl: string;
     name: string;
     description: string;
     expireTime?: Date;

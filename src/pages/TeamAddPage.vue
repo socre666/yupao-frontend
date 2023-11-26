@@ -2,6 +2,7 @@
   <div id="teamAddPage">
     <van-form @submit="onSubmit">
       <van-cell-group inset>
+        <van-uploader v-model="fileList" multiple :max-count="1"/>
         <van-field
             v-model="addTeamData.name"
             name="name"
@@ -73,7 +74,7 @@ import {useRouter} from "vue-router";
 import {ref} from "vue";
 import myAxios from "../plugins/myAxios";
 import {Toast} from "vant";
-
+// const fileList = "ikun.png"
 const router = useRouter();
 // 展示日期选择器
 const showPicker = ref(false);
@@ -88,6 +89,7 @@ const initFormData = {
 }
 
 const minDate = new Date();
+const fileList = ref([]);
 
 // 需要用户填写的表单数据
 const addTeamData = ref({...initFormData})
@@ -113,7 +115,15 @@ const onSubmit = async () => {
 </script>
 
 <style scoped>
-#teamPage {
-
+.preview-cover {
+  position: absolute;
+  bottom: 0;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 4px;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.3);
 }
 </style>

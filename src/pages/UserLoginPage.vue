@@ -19,10 +19,13 @@
     </van-cell-group>
     <div style="margin: 16px;">
       <van-button round block type="primary" native-type="submit">
-        提交
+        登录
       </van-button>
     </div>
   </van-form>
+  <div class="register" style="float: right">
+    <span>没有账户?</span> <router-link class="a_router" to="/user/register">去注册</router-link>
+  </div>
 </template>
 
 <script setup lang="ts">

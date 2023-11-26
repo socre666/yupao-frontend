@@ -2,8 +2,8 @@
   <van-skeleton title avatar :row="3" :loading="props.loading" v-for="user in props.userList">
     <van-card
         :desc="user.profile"
-        :title="`${user.username}（${user.planetCode}）`"
-        :thumb="user.avatarUrl"
+        :title="`${user.username}`"
+        :thumb="user?.avatarUrl ?? defaultavatarUrl"
     >
       <template #tags>
         <van-tag plain type="danger" v-for="tag in user.tags" style="margin-right: 8px; margin-top: 8px">
@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import {UserType} from "../models/user";
-
+const defaultavatarUrl= "https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg"
 interface UserCardListProps {
   loading: boolean;
   userList: UserType[];

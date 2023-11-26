@@ -8,7 +8,7 @@
       />
     <div style="margin: 16px;">
       <van-button round block type="primary" native-type="submit">
-        提交
+        修改
       </van-button>
     </div>
   </van-form>
@@ -32,7 +32,6 @@ const editUser = ref({
 
 const onSubmit = async () => {
   const currentUser = await getCurrentUser();
-
   if (!currentUser) {
     Toast.fail('用户未登录');
     return;

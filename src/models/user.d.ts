@@ -7,12 +7,11 @@ export type UserType = {
     userAccount: string;
     avatarUrl?: string;
     profile?: string;
-    gender:number;
+    gender:string;
     phone: string;
     email: string;
     userStatus: number;
     userRole: number;
-    planetCode: string;
     tags: string;
     createTime: Date;
 };
