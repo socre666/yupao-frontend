@@ -1,5 +1,12 @@
 <template>
   <template v-if="user">
+      <van-image
+        round
+        width="10rem"
+        height="10rem"
+        :src="user.avatarUrl"
+        style="display: block;margin-left: auto;margin-right: auto"
+    />
     <van-cell title="当前用户" :value="user?.username" />
     <van-cell title="修改信息" is-link to="/user/update" />
     <van-cell title="我创建的队伍" is-link to="/user/team/create" />
@@ -18,13 +25,12 @@ import {getCurrentUser} from "../services/user";
 
 
 const user = ref();
-
 const router = useRouter();
 
 onMounted(async () => {
   user.value = await getCurrentUser();
 })
-
+console.log("user.value",user)
 const toEdit = (editKey: string, editName: string, currentValue: string) => {
   router.push({
     path: '/user/edit',

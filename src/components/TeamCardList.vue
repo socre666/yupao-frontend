@@ -1,111 +1,51 @@
 <template>
-<!--  <div-->
-<!--      id="teamCardList"-->
-<!--  >-->
-<!--    <van-card-->
-<!--        v-for="team in props.teamList"-->
-<!--        :thumb="team.teamAvatarUrl"-->
-<!--        :desc="team.description"-->
-<!--        :title="`${team.name}`"-->
-<!--    >-->
-<!--      <template #tags>-->
-<!--        <van-tag plain type="danger" style="margin-right: 8px; margin-top: 8px">-->
-<!--          {{-->
-<!--            teamStatusEnum[team.status]-->
-<!--          }}-->
-<!--        </van-tag>-->
-<!--      </template>-->
-<!--      <template #bottom>-->
-<!--        <div>-->
-<!--          {{ `队伍人数: ${team.hasJoinNum}/${team.maxNum}` }}-->
-<!--        </div>-->
-<!--        <div v-if="team.expireTime">-->
-<!--          {{ '过期时间: ' + team.expireTime }}-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          {{ '创建时间: ' + team.createTime }}-->
-<!--        </div>-->
-<!--      </template>-->
-<!--      <template #footer>-->
-<!--        <van-button size="small" type="primary" v-if="team.userId !== currentUser?.id && !team.hasJoin" plain-->
-<!--                    @click="preJoinTeam(team)">-->
-<!--          加入队伍-->
-<!--        </van-button>-->
-<!--        <van-button v-if="team.userId === currentUser?.id" size="small" plain-->
-<!--                    @click="doUpdateTeam(team.id)">更新队伍-->
-<!--        </van-button>-->
-<!--        &lt;!&ndash; 仅加入队伍可见 &ndash;&gt;-->
-<!--        <van-button v-if="team.userId !== currentUser?.id && team.hasJoin" size="small" plain-->
-<!--                    @click="doQuitTeam(team.id)">退出队伍-->
-<!--        </van-button>-->
-<!--        <van-button v-if="team.userId === currentUser?.id" size="small" type="danger" plain-->
-<!--                    @click="doDeleteTeam(team.id)">解散队伍-->
-<!--        </van-button>-->
-<!--      </template>-->
-<!--    </van-card>-->
-<!--    <van-dialog v-model:show="showPasswordDialog" title="请输入密码" show-cancel-button @confirm="doJoinTeam" @cancel="doJoinCancel">-->
-<!--      <van-field v-model="password" placeholder="请输入密码"/>-->
-<!--    </van-dialog>-->
-<!--  </div>-->
-  <div v-for="(team, index) in props.teamList" :key="index" id="teamCardList" class="team-card">
-    <img  :src="team?.teamAvatarUrl ?? defaultPic" alt="Team Avatar" class="team-avatar" />
-    <div class="team-info">
-      <h3 class="team-name">{{ team.name }}</h3>
-      <p class="team-description"><span class="tip">队伍描述：</span>{{ team.description }}</p>
-      <p class="team-members">
-        <span class="tip">
-          最大人数：
-        </span>
-        {{ team.hasJoinNum }} / {{ team.maxNum }}
-      </p>
-
-      <div class="status">
-
-        <div class="team-status" v-if="team.status === 0">
-          <span class="tip">房间状态：</span><van-tag type="primary">公开</van-tag>
+  <div
+      id="teamCardList"
+  >
+    <van-card
+        v-for="team in props.teamList"
+        :thumb="team?.teamAvatarUrl ?? defaultavatarUrl"
+        :desc="team.description"
+        :title="`${team.name}`"
+    >
+      <template #tags>
+        <van-tag plain type="danger" style="margin-right: 8px; margin-top: 8px">
+          {{
+            teamStatusEnum[team.status]
+          }}
+        </van-tag>
+      </template>
+      <template #bottom>
+        <div>
+          {{ `队伍人数: ${team.hasJoinNum}/${team.maxNum}` }}
         </div>
-        <div class="team-status" v-else-if="team.status === 1">
-          <span class="tip">房间状态：</span><van-tag type="warning">私有</van-tag>
+        <div v-if="team.expireTime">
+          {{ '过期时间: ' + team.expireTime }}
         </div>
-        <div class="team-status" v-else-if="team.status === 2">
-          <span class="tip">房间状态：</span><van-tag type="success">加密</van-tag>
+        <div>
+          {{ '创建时间: ' + team.createTime }}
         </div>
-      </div>
-<!--      <div class="avas">-->
-<!--        <a-avatar-group>-->
-<!--          <a-avatar :src="team.createUser?.avatarUrl" />-->
-<!--          <a-avatar style="background-color: #f56a00">K</a-avatar>-->
-<!--          <a-tooltip title="队伍成员" placement="top">-->
-<!--            <a-avatar style="background-color: #87d068">-->
-<!--              <template #icon>-->
-<!--                <UserOutlined />-->
-<!--              </template>-->
-<!--            </a-avatar>-->
-<!--          </a-tooltip>-->
-<!--          <a-avatar style="background-color: #1890ff">-->
-<!--            <template #icon>-->
-<!--              <AntDesignOutlined />-->
-<!--            </template>-->
-<!--          </a-avatar>-->
-<!--        </a-avatar-group>-->
-<!--      </div>-->
-    </div>
-    <div class="showTeamStatus">
-      <van-button size="small" type="primary" v-if="team.userId !== currentUser?.id && !team.hasJoin" plain @click="preJoinTeam(team)"> 加入队伍
-      </van-button>
-      <van-button v-if="team.userId === currentUser?.id" size="small" plain @click="doUpdateTeam(team.id)">更新队伍
-      </van-button>
-      <!-- 仅加入队伍可见 -->
-      <van-button v-if="team.userId !== currentUser?.id && team.hasJoin" size="small" plain @click="doQuitTeam(team.id)">退出队伍
-      </van-button>
-      <van-button v-if="team.userId === currentUser?.id" size="small" type="danger" plain @click="doDeleteTeam(team.id)">解散队伍
-      </van-button>
-    </div>
-    <div>
-      <van-dialog v-model:show="showPasswordDialog" title="请输入密码" show-cancel-button @confirm="doJoinTeam" @cancel="doJoinCancel">
-        <van-field v-model="password" placeholder="请输入密码"/>
-      </van-dialog>
-    </div>
+      </template>
+      <template #footer>
+        <van-button size="small" type="primary" v-if="team.userId !== currentUser?.id && !team.hasJoin" plain
+                    @click="preJoinTeam(team)">
+          加入队伍
+        </van-button>
+        <van-button v-if="team.userId === currentUser?.id" size="small" plain
+                    @click="doUpdateTeam(team.id)">更新队伍
+        </van-button>
+        <!-- 仅加入队伍可见 -->
+        <van-button v-if="team.userId !== currentUser?.id && team.hasJoin" size="small" plain
+                    @click="doQuitTeam(team.id)">退出队伍
+        </van-button>
+        <van-button v-if="team.userId === currentUser?.id" size="small" type="danger" plain
+                    @click="doDeleteTeam(team.id)">解散队伍
+        </van-button>
+      </template>
+    </van-card>
+    <van-dialog v-model:show="showPasswordDialog" title="请输入密码" show-cancel-button @confirm="doJoinTeam" @cancel="doJoinCancel">
+      <van-field v-model="password" placeholder="请输入密码"/>
+    </van-dialog>
   </div>
 </template>
 
@@ -117,7 +57,7 @@ import {Dialog, Toast} from "vant";
 import {onMounted, ref} from "vue";
 import {getCurrentUser} from "../services/user";
 import {useRouter} from "vue-router";
-const defaultPic = "https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg"
+const defaultavatarUrl= "https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg"
 interface TeamCardListProps {
   teamList: TeamType[];
 }

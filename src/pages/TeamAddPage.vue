@@ -2,7 +2,7 @@
   <div id="teamAddPage">
     <van-form @submit="onSubmit">
       <van-cell-group inset>
-        <van-uploader v-model="fileList" multiple :max-count="1"/>
+        <van-uploader v-model="fileList" multiple :max-count="1" :before-read="beforeRead" :after-read="afterRead" />
         <van-field
             v-model="addTeamData.name"
             name="name"
@@ -80,6 +80,7 @@ const router = useRouter();
 const showPicker = ref(false);
 
 const initFormData = {
+  "teamAvatarUrl":"",
   "name": "",
   "description": "",
   "expireTime": null,
@@ -89,10 +90,40 @@ const initFormData = {
 }
 
 const minDate = new Date();
-const fileList = ref([]);
 
-// 需要用户填写的表单数据
 const addTeamData = ref({...initFormData})
+const fileList = ref([
+
+  // Uploader 根据文件后缀来判断是否为图片文件
+  // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
+]);
+const beforeRead = (file: any) => {
+  console.log(file+'jpg')
+  if (file.type !== 'image/jpeg') {
+    Toast('请上传 jpg 格式图片');
+    return false;
+  }
+  return true;
+};
+
+const afterRead = (file: any) => {
+  // 返回图片信息
+  console.log(file);
+  const ImgUploadFile = async (params: any) => {
+    // 要把数据变成file格式
+    const formData = new FormData(); // 下面有备注
+    formData.append('file', params);
+    console.log(formData)
+    return await myAxios.post('/upload/img', formData, {
+      headers: {
+        // 注意修改请求头file格式
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  };
+  ImgUploadFile(file.file)
+  addTeamData.value.teamAvatarUrl =  "http://s4rm2leff.hn-bkt.clouddn.com/"+ file.file.name;
+}
 
 // 提交
 const onSubmit = async () => {
@@ -112,6 +143,9 @@ const onSubmit = async () => {
     Toast.success('添加失败');
   }
 }
+
+
+
 </script>
 
 <style scoped>

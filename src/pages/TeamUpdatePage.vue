@@ -2,6 +2,7 @@
   <div id="teamAddPage">
     <van-form @submit="onSubmit">
       <van-cell-group inset>
+        <van-uploader v-model="fileList" multiple :max-count="1" :before-read="beforeRead" :after-read="afterRead" />
       <van-field
             v-model="addTeamData.name"
             name="name"
@@ -25,6 +26,11 @@
             :placeholder="addTeamData.expireTime ?? '点击选择过期时间'"
             @click="showPicker = true"
         />
+        <van-field name="stepper" label="最大人数">
+          <template #input>
+            <van-stepper v-model="addTeamData.maxNum" max="10" min="3"/>
+          </template>
+        </van-field>
         <van-popup v-model:show="showPicker" position="bottom">
           <van-datetime-picker
               v-model="addTeamData.expireTime"
@@ -68,6 +74,7 @@ import {useRoute, useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
 import myAxios from "../plugins/myAxios";
 import {Toast} from "vant";
+import {TeamType} from "../models/team";
 
 const router = useRouter();
 const route = useRoute();
@@ -81,7 +88,14 @@ const id = route.query.id;
 
 // 需要用户填写的表单数据
 const addTeamData = ref({})
+// const fileList = ref(
+//     [{url: "", isImage: true},
+//       // Uploader 根据文件后缀来判断是否为图片文件
+//       // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
+// ]);
+const fileList = ref([]);
 
+console.log("fileList",fileList.value)
 // 获取之前的队伍信息
 onMounted(async () => {
   if (id <= 0) {
@@ -95,11 +109,39 @@ onMounted(async () => {
   });
   if (res?.code === 0) {
     addTeamData.value = res.data;
+    fileList.value = [{url: addTeamData.value.teamAvatarUrl ?? "https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg" , isImage: true}]
   } else {
     Toast.fail('加载队伍失败，请刷新重试');
   }}
 )
 
+const beforeRead = (file: any) => {
+  console.log(file+'jpg')
+  if (file.type !== 'image/jpeg') {
+    Toast('请上传 jpg 格式图片');
+    return false;
+  }
+  return true;
+};
+
+const afterRead = (file: any) => {
+  // 返回图片信息
+  console.log(file);
+  const ImgUploadFile = async (params: any) => {
+    // 要把数据变成file格式
+    const formData = new FormData(); // 下面有备注
+    formData.append('file', params);
+    console.log(formData)
+    return await myAxios.post('/upload/img', formData, {
+      headers: {
+        // 注意修改请求头file格式
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  };
+  ImgUploadFile(file.file)
+  addTeamData.value.teamAvatarUrl =  "http://s4rm2leff.hn-bkt.clouddn.com/"+ file.file.name;
+}
 // 提交
 const onSubmit = async () => {
   const postData = {

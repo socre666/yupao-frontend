@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<UserCardListProps>(), {
   // @ts-ignore
   userList: [] as UserType[],
 });
-
+console.log("props",props.userList)
 </script>
 
 <style scoped>
