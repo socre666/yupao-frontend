@@ -47,6 +47,7 @@
       <van-field v-model="password" placeholder="请输入密码"/>
     </van-dialog>
   </div>
+  <div style="height: 180px;"></div>
 </template>
 
 <script setup lang="ts">

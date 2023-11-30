@@ -1,6 +1,8 @@
 <template>
+  <Top />
   <user-card-list :user-list="userList" :loading="loading"/>
   <van-empty v-if="!userList || userList.length < 1" description="搜索结果为空" />
+  <Bottom />
 </template>
 
 <script setup lang="ts">
@@ -10,6 +12,8 @@ import myAxios from "../plugins/myAxios";
 import {Toast} from "vant";
 import qs from 'qs';
 import UserCardList from "../components/UserCardList.vue";
+import Bottom from "../layouts/Bottom.vue";
+import Top from "../layouts/Top.vue";
 
 const route = useRoute();
 const {tags} = route.query;

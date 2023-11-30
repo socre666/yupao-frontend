@@ -15,6 +15,7 @@
       </template>
     </van-card>
   </van-skeleton>
+  <div style="height: 100px;"></div>
 </template>
 
 <script setup lang="ts">

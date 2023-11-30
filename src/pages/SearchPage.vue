@@ -1,4 +1,5 @@
 <template>
+  <Top />
   <form action="/">
     <van-search
         v-model="searchText"
@@ -26,12 +27,14 @@
   <div style="padding: 12px">
     <van-button block type="primary" @click="doSearchResult">搜索</van-button>
   </div>
+  <Bottom />
 </template>
 
 <script setup lang="ts">
 import {ref} from 'vue';
 import {useRouter} from "vue-router";
-
+import Bottom from "../layouts/Bottom.vue";
+import Top from "../layouts/Top.vue";
 const router = useRouter()
 
 const searchText = ref('');

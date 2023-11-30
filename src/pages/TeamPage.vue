@@ -1,4 +1,5 @@
 <template>
+  <Top />
   <div id="teamPage">
     <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch" />
     <van-tabs v-model:active="active" @change="onTabChange">
@@ -10,6 +11,14 @@
     <team-card-list :teamList="teamList" />
     <van-empty v-if="teamList?.length < 1" description="数据为空"/>
   </div>
+  <div class="bottom">
+    <van-tabbar route @change="onChange" >
+      <van-tabbar-item to="/" icon="home-o" name="index">主页</van-tabbar-item>
+      <van-tabbar-item to="/team" icon="search" name="team">队伍</van-tabbar-item>
+      <van-tabbar-item to="/user" icon="friends-o" name="user">个人</van-tabbar-item>
+    </van-tabbar>
+  </div>
+  <Bottom />
 </template>
 
 <script setup lang="ts">
@@ -18,7 +27,9 @@ import {useRouter} from "vue-router";
 import TeamCardList from "../components/TeamCardList.vue";
 import {onMounted, ref} from "vue";
 import myAxios from "../plugins/myAxios";
-import {Toast} from "vant";
+import Top from "../layouts/Top.vue";
+import Bottom from "../layouts/Bottom.vue";
+
 
 const active = ref('public')
 const router = useRouter();

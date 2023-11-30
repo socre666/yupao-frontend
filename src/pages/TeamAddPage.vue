@@ -1,4 +1,5 @@
 <template>
+  <Top />
   <div id="teamAddPage">
     <van-form @submit="onSubmit">
       <van-cell-group inset>
@@ -66,6 +67,7 @@
       </div>
     </van-form>
   </div>
+  <Bottom />
 </template>
 
 <script setup lang="ts">
@@ -74,6 +76,8 @@ import {useRouter} from "vue-router";
 import {ref} from "vue";
 import myAxios from "../plugins/myAxios";
 import {Toast} from "vant";
+import Top from "../layouts/Top.vue";
+import Bottom from "../layouts/Bottom.vue";
 // const fileList = "ikun.png"
 const router = useRouter();
 // 展示日期选择器

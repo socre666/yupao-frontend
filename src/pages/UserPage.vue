@@ -1,4 +1,5 @@
 <template>
+  <Top />
   <template v-if="user">
       <van-image
         round
@@ -12,8 +13,8 @@
     <van-cell title="我创建的队伍" is-link to="/user/team/create" />
     <van-cell title="我加入的队伍" is-link to="/user/team/join" />
     <van-button type="primary" size="large" @click="logout">退出登录</van-button>
-
   </template>
+  <Bottom />
 </template>
 
 <script setup lang="ts">
@@ -22,7 +23,8 @@ import {onMounted, ref} from "vue";
 import myAxios from "../plugins/myAxios";
 import {Dialog, Toast} from "vant";
 import {getCurrentUser} from "../services/user";
-
+import Top from "../layouts/Top.vue";
+import Bottom from "../layouts/Bottom.vue";
 
 const user = ref();
 const router = useRouter();

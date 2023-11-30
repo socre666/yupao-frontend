@@ -1,10 +1,12 @@
 <template>
+  <Top />
   <div id="teamPage">
     <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch" />
     <van-button type="primary" @click="doJoinTeam">创建队伍</van-button>
     <team-card-list :teamList="teamList" />
     <van-empty v-if="teamList?.length < 1" description="数据为空"/>
   </div>
+  <Bottom />
 </template>
 
 <script setup lang="ts">
@@ -14,6 +16,8 @@ import TeamCardList from "../components/TeamCardList.vue";
 import {onMounted, ref} from "vue";
 import myAxios from "../plugins/myAxios";
 import {Toast} from "vant";
+import Top from "../layouts/Top.vue";
+import Bottom from "../layouts/Bottom.vue";
 
 const router = useRouter();
 const searchText = ref('');

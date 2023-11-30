@@ -1,11 +1,15 @@
 <template>
-  <van-cell center title="心动模式">
-    <template #right-icon>
-      <van-switch v-model="isMatchMode" size="24" />
-    </template>
-  </van-cell>
-  <user-card-list :user-list="userList" :loading="loading"/>
-  <van-empty v-if="!userList || userList.length < 1" description="数据为空"/>
+  <Top />
+  <div id="content">
+    <van-cell center title="心动模式">
+      <template #right-icon>
+        <van-switch v-model="isMatchMode" size="24" />
+      </template>
+    </van-cell>
+    <user-card-list :user-list="userList" :loading="loading"/>
+    <van-empty v-if="!userList || userList.length < 1" description="数据为空"/>
+  </div>
+  <Bottom />
 </template>
 
 <script setup lang="ts">
@@ -14,11 +18,14 @@ import myAxios from "../plugins/myAxios";
 import {Toast} from "vant";
 import UserCardList from "../components/UserCardList.vue";
 import {UserType} from "../models/user";
-
+import Top from "../layouts/Top.vue";
+import {useRouter} from "vue-router";
+import Bottom from "../layouts/Bottom.vue";
 const isMatchMode = ref<boolean>(false);
 
 const userList = ref([]);
 const loading = ref(true);
+const router = useRouter();
 
 /**
  * 加载数据
@@ -88,5 +95,7 @@ watchEffect(() => {
 </script>
 
 <style scoped>
-
+#content {
+  padding-bottom: 50px;
+}
 </style>
