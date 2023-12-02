@@ -111,7 +111,7 @@ const afterRead = (file: any) => {
   };
   ImgUploadFile(file.file)
   //牛客云上绑定的域名+文件名
-  editUser.value.currentValue =  "http://s4rm2leff.hn-bkt.clouddn.com/"+ file.file.name;
+  editUser.value.currentValue =  "http://img.struggle.net.cn/"+ file.file.name;
 }
 const checked = ref();
 // 获取之前的用户头像信息
@@ -148,7 +148,8 @@ const onSubmit = async () => {
     Toast.fail('用户未登录');
     return;
   }
-  // 将数组类型转成字符串类型的形式
+  let res = '';
+  // 如果是标签将数组类型转成字符串类型的形式
   if(route.query.editName === "标签"){
     for (let i = 0; i < editUser.value.currentValue.length; i++) {
       if(i<editUser.value.currentValue.length-1){
@@ -157,14 +158,18 @@ const onSubmit = async () => {
         tempTagLis += '"'+ editUser.value.currentValue[i] + '"';
       }
     }
-    editUser.value.currentValue = '['+tempTagLis + ']';
+    tempTagLis = '['+tempTagLis + ']';
+    res = await myAxios.post('/user/update', {
+      'id': currentUser.id,
+      [editUser.value.editKey as string]: tempTagLis,
+    })
+  }else {
+    res = await myAxios.post('/user/update', {
+      'id': currentUser.id,
+      [editUser.value.editKey as string]: editUser.value.currentValue,
+    })
   }
-  const res = await myAxios.post('/user/update', {
-    'id': currentUser.id,
-    [editUser.value.editKey as string]: editUser.value.currentValue,
-  })
   console.log(currentUser, '当前用户')
-
   console.log(res, '更新请求');
   if (res.code === 0 && res.data > 0) {
     Toast.success('修改成功');
@@ -172,6 +177,7 @@ const onSubmit = async () => {
   } else {
     Toast.fail('修改错误');
   }
+
 };
 
 </script>

@@ -144,7 +144,7 @@ const afterRead = (file: any) => {
     });
   };
   ImgUploadFile(file.file)
-  addTeamData.value.teamAvatarUrl =  "http://s4rm2leff.hn-bkt.clouddn.com/"+ file.file.name;
+  addTeamData.value.teamAvatarUrl =  "http://img.struggle.net.cn/"+ file.file.name;
 }
 // 提交
 const onSubmit = async () => {
